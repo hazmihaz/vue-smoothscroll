@@ -106,10 +106,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    // Get the top position of an element in the document
-	    var getTop = function (element, start, axis) {
+	    var getTop = function (element, start, offset, axis) {
 	        // return value of html.getBoundingClientRect().top ... IE : 0, other browsers : -pageYOffset
 	        if (element.nodeName === 'HTML') return -start;
-	        return (axis ? element.getBoundingClientRect().top : element.getBoundingClientRect().left) + start;
+	        return (axis ? element.getBoundingClientRect().top : element.getBoundingClientRect().left) + start - offset;
 	    };
 	    // ease in out function thanks to:
 	    // http://blog.greweb.fr/2012/02/bezier-curve-based-easing-functions-from-concept-to-implementation/
@@ -138,14 +138,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        axis = axis === 'both' ? 0b11 : axis === 'y' ? 0b01 : axis === 'x' ? 0b10 : 0b01;
 	        var enableY = axis & 0b01,
 	            enableX = axis & 0b10;
-	        var startY = context.scrollTop || window.pageYOffset;
+	        var startY = context.scrollTop + context.getBoundingClientRect().top || window.pageYOffset;
 	        var startX = context.screenLeft || window.pageXOffset;
+	        var offsetY = context.getBoundingClientRect().top;
+	        var offsetX = context.getBoundingClientRect().left;
 	        if (typeof el === 'number') {
 	            var endY = enableY && parseInt(el);
 	            var endX = enableX && parseInt(el);
 	        } else {
-	            var endY = enableY && getTop(el, startY, true);
-	            var endX = enableX && getTop(el, startX, false);
+	            var endY = enableY && getTop(el, startY, offsetY, true);
+	            var endX = enableX && getTop(el, startX, offsetX, false);
 	        }
 
 	        var clock = Date.now();
