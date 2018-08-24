@@ -138,7 +138,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        axis = axis === 'both' ? 0b11 : axis === 'y' ? 0b01 : axis === 'x' ? 0b10 : 0b01;
 	        var enableY = axis & 0b01,
 	            enableX = axis & 0b10;
-	        var startY = context.scrollTop + context.getBoundingClientRect().top || window.pageYOffset;
+	        var startY = context.scrollTop || window.pageYOffset;
 	        var startX = context.screenLeft || window.pageXOffset;
 	        var offsetY = context.getBoundingClientRect().top;
 	        var offsetX = context.getBoundingClientRect().left;
